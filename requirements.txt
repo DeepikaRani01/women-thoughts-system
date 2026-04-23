@@ -3,9 +3,9 @@ Flask-Login==0.6.3
 Flask-SQLAlchemy==3.1.1
 bcrypt==4.1.2
 anthropic==0.25.0
-deepface==0.0.89
-opencv-python==4.9.0.80
-Pillow==10.2.0
+deepface
+opencv-python-headless
+Pillow
 flask-wtf==1.2.1
 python-dotenv==1.0.1
 gunicorn==21.2.0
