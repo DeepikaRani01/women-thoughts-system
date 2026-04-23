@@ -1,0 +1,112 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="dashboard-header section">
+    <div class="container flex-between">
+        <div class="header-text">
+            <h1>Community Feed</h1>
+            <p>Every story matters. Thank you for sharing yours.</p>
+        </div>
+        <div class="header-actions">
+            <a href="{{ url_for('posts.create_post') }}" class="btn btn-primary btn-round">
+                <i class="fas fa-plus"></i> Share Thought
+            </a>
+        </div>
+    </div>
+</div>
+
+<div class="filters-section section">
+    <div class="container">
+        <div class="filters-grid">
+            <div class="filter-group">
+                <label>Category:</label>
+                <select onchange="window.location.href='/dashboard?category=' + this.value">
+                    <option value="">All Categories</option>
+                    <option value="Mental Health">Mental Health</option>
+                    <option value="Career">Career</option>
+                    <option value="Relationships">Relationships</option>
+                    <option value="Harassment">Harassment</option>
+                    <option value="General">General</option>
+                </select>
+            </div>
+            <div class="filter-group">
+                <label>Sort By:</label>
+                <select onchange="window.location.href='/dashboard?sort=' + this.value">
+                    <option value="latest">Latest</option>
+                    <option value="liked">Most Liked</option>
+                </select>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="posts-section section">
+    <div class="container posts-grid">
+        {% for post in posts %}
+        <div class="post-card glass-card">
+            <div class="post-header">
+                <div class="post-user">
+                    <span class="avatar">{{ post.author.username[0]|upper if not post.is_anonymous else 'A' }}</span>
+                    <div>
+                        <span class="username">{{ 'Anonymous' if post.is_anonymous else post.author.username }}</span>
+                        {% if not post.is_anonymous and post.author.gender_verified %}
+                            <span class="verified-badge" title="Gender Verified"><i class="fas fa-check-circle"></i></span>
+                        {% endif %}
+                        <span class="post-date">{{ post.created_at.strftime('%b %d') }}</span>
+                    </div>
+                </div>
+                <div class="post-emotion-badge badge-{{ post.emotion }}">
+                    {% if post.emotion == 'happy' %} 😄 {% elif post.emotion == 'sad' %} 😢 
+                    {% elif post.emotion == 'angry' %} 😡 {% elif post.emotion == 'anxious' %} 😰 
+                    {% elif post.emotion == 'hopeful' %} 🌟 {% else %} 😐 {% endif %}
+                    {{ post.emotion|capitalize }}
+                </div>
+            </div>
+            
+            <div class="post-body">
+                <p>{{ post.thought }}</p>
+                <span class="category-tag">#{{ post.category }}</span>
+            </div>
+            
+            <div class="post-footer">
+                <button class="btn-icon" onclick="likePost({{ post.id }}, this)">
+                    <i class="far fa-heart"></i> <span class="like-count">{{ post.likes_count }}</span>
+                </button>
+                <button class="btn-icon" onclick="toggleComments({{ post.id }})">
+                    <i class="far fa-comment"></i> <span class="comment-count">{{ post.comments|length }}</span>
+                </button>
+                <button class="btn-icon report-btn" title="Report Post" onclick="reportPost({{ post.id }}, this)">
+                    <i class="far fa-flag"></i>
+                </button>
+            </div>
+
+            <!-- Expandable Comments Section -->
+            <div id="comments-{{ post.id }}" class="comments-section" style="display:none;">
+                <hr>
+                <div class="comments-list">
+                    {% for comment in post.comments %}
+                    <div class="comment-item">
+                        <strong>{{ 'Anonymous' if comment.is_anonymous else comment.author.username }}</strong>
+                        <p>{{ comment.body }}</p>
+                        <small>{{ comment.created_at.strftime('%b %d, %H:%M') }}</small>
+                    </div>
+                    {% endfor %}
+                </div>
+                <form onsubmit="submitComment(event, {{ post.id }})" class="comment-form">
+                    <input type="text" name="body" placeholder="Write a supportive comment..." required>
+                    <div class="comment-form-footer">
+                        <label class="small"><input type="checkbox" name="is_anonymous"> Anonymous</label>
+                        <button type="submit" class="btn btn-primary btn-sm">Reply</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+        {% else %}
+        <div class="no-posts">
+            <p>No thoughts shared in this category yet. Be the first!</p>
+            <a href="{{ url_for('posts.create_post') }}" class="btn btn-secondary">Share a Thought</a>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,68 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="profile-container container">
+    <div class="profile-grid">
+        <div class="profile-info glass-card">
+            <div class="profile-header">
+                <div class="large-avatar">{{ user.username[0]|upper }}</div>
+                <h2>{{ user.username }}</h2>
+                {% if user.gender_verified %}
+                    <span class="verified-badge-large"><i class="fas fa-check-circle"></i> Verified Woman</span>
+                {% endif %}
+                <p class="joined-date">Joined {{ user.joined_at.strftime('%B %Y') }}</p>
+            </div>
+            
+            <div class="profile-stats">
+                <div class="stat-item">
+                    <span class="stat-value">{{ user.posts|length }}</span>
+                    <span class="stat-label">Posts</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-value">{{ user.posts|sum(attribute='likes_count') }}</span>
+                    <span class="stat-label">Likes</span>
+                </div>
+            </div>
+
+            <hr>
+
+            <div class="profile-actions">
+                <button class="btn btn-outline btn-block">Edit Profile</button>
+            </div>
+        </div>
+
+        <div class="profile-feed">
+            <h3>My Shared Thoughts</h3>
+            {% for post in user.posts|sort(attribute='created_at', reverse=True) %}
+            <div class="post-card glass-card">
+                <div class="post-header">
+                    <span class="post-date">{{ post.created_at.strftime('%b %d, %Y') }}</span>
+                    <span class="post-emotion-badge badge-{{ post.emotion }}">{{ post.emotion|capitalize }}</span>
+                </div>
+                <div class="post-body">
+                    <p>{{ post.thought }}</p>
+                    <div class="post-meta">
+                        <span class="category-tag">#{{ post.category }}</span>
+                        {% if post.is_anonymous %}
+                            <span class="anon-tag"><i class="fas fa-lock"></i> Anonymous</span>
+                        {% endif %}
+                    </div>
+                </div>
+                <div class="post-footer">
+                    <span>❤️ {{ post.likes_count }} likes</span>
+                    <form action="{{ url_for('admin.delete_post', post_id=post.id) }}" method="POST" onsubmit="return confirm('Are you sure you want to delete this post?')">
+                        <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+                        <button type="submit" class="btn-text danger">Delete</button>
+                    </form>
+                </div>
+            </div>
+            {% else %}
+            <div class="no-posts">
+                <p>You haven't shared any thoughts yet.</p>
+                <a href="{{ url_for('posts.create_post') }}" class="btn btn-primary">Share your first thought</a>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</div>
+{% endblock %}

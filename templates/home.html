@@ -1,0 +1,48 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="hero section">
+    <div class="container hero-content">
+        <h1>Your thoughts matter. Your voice is safe here.</h1>
+        <p class="subtitle">A judgment-free anonymous space created by women, for women.</p>
+        <div class="hero-btns">
+            <a href="{{ url_for('posts.create_post') }}" class="btn btn-primary">Share Your Thoughts</a>
+            <a href="{{ url_for('posts.dashboard') }}" class="btn btn-secondary">Read Others' Stories</a>
+        </div>
+    </div>
+</div>
+
+<div class="stats-section section">
+    <div class="container">
+        <div class="stats-grid">
+            <div class="stat-card">
+                <h3>{{ stats.total_posts }}</h3>
+                <p>Thoughts Shared</p>
+            </div>
+            <div class="stat-card">
+                <h3>{{ stats.total_users }}</h3>
+                <p>Supportive Members</p>
+            </div>
+            <div class="stat-card">
+                <h3>{{ stats.safe_stories }}</h3>
+                <p>Safe Stories Shared</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="guidelines-preview section">
+    <div class="container">
+        <div class="glass-card">
+            <h2>Our Commitment to Safety</h2>
+            <p>We use advanced camera verification and community moderation to ensure this remains a dedicated space for women.</p>
+            <ul class="safe-list">
+                <li><i class="fas fa-check-circle"></i> Complete anonymity option for every post</li>
+                <li><i class="fas fa-check-circle"></i> AI-powered empathetic support suggestions</li>
+                <li><i class="fas fa-check-circle"></i> Zero tolerance for harassment or hate speech</li>
+            </ul>
+            <a href="{{ url_for('posts.guidelines') }}" class="btn btn-outline">Read Safe Space Guidelines</a>
+        </div>
+    </div>
+</div>
+{% endblock %}

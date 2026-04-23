@@ -1,0 +1,115 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="create-post-container container">
+    <div class="create-post-card glass-card">
+        <h2>Share Your Thought</h2>
+        <p>What's on your mind today? This is a safe space.</p>
+        
+        <form action="{{ url_for('posts.create_post') }}" method="POST" id="post-form">
+            <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+            
+            <div class="form-group">
+                <label for="thought">Your Thought</label>
+                <textarea id="thought" name="thought" rows="6" required placeholder="Type your thoughts here... Our AI will offer a gentle word of support as you type." oninput="debouncedAISuggestion()"></textarea>
+                
+                <div id="ai-response" class="ai-suggestion" style="display:none;">
+                    <div class="ai-header">
+                        <i class="fas fa-magic"></i> A gentle reminder:
+                    </div>
+                    <p id="ai-text"></p>
+                    <div id="ai-spinner" class="spinner" style="display:none;"></div>
+                </div>
+            </div>
+
+            <div class="form-row">
+                <div class="form-group half">
+                    <label>How are you feeling?</label>
+                    <div class="emotion-selector">
+                        <input type="radio" id="happy" name="emotion" value="happy" checked>
+                        <label for="happy" title="Happy">😄</label>
+                        
+                        <input type="radio" id="sad" name="emotion" value="sad">
+                        <label for="sad" title="Sad">😢</label>
+                        
+                        <input type="radio" id="angry" name="emotion" value="angry">
+                        <label for="angry" title="Angry">😡</label>
+                        
+                        <input type="radio" id="anxious" name="emotion" value="anxious">
+                        <label for="anxious" title="Anxious">😰</label>
+                        
+                        <input type="radio" id="hopeful" name="emotion" value="hopeful">
+                        <label for="hopeful" title="Hopeful">🌟</label>
+                        
+                        <input type="radio" id="neutral" name="emotion" value="neutral">
+                        <label for="neutral" title="Neutral">😐</label>
+                    </div>
+                </div>
+                
+                <div class="form-group half">
+                    <label for="category">Category</label>
+                    <select id="category" name="category" required>
+                        <option value="General">General</option>
+                        <option value="Mental Health">Mental Health</option>
+                        <option value="Career">Career</option>
+                        <option value="Relationships">Relationships</option>
+                        <option value="Harassment">Harassment</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="form-check toggle-switch">
+                <label class="switch">
+                    <input type="checkbox" name="is_anonymous">
+                    <span class="slider round"></span>
+                </label>
+                <span class="toggle-label">Post Anonymously 🔒</span>
+            </div>
+
+            <button type="submit" class="btn btn-primary btn-block">Post Thought</button>
+        </form>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+    let timeout = null;
+    function debouncedAISuggestion() {
+        const thought = document.getElementById('thought').value;
+        if (thought.length < 20) return;
+        
+        clearTimeout(timeout);
+        timeout = setTimeout(() => {
+            fetchAISuggestion(thought);
+        }, 1500);
+    }
+
+    async function fetchAISuggestion(text) {
+        const aiResponse = document.getElementById('ai-response');
+        const aiText = document.getElementById('ai-text');
+        const spinner = document.getElementById('ai-spinner');
+        
+        aiResponse.style.display = 'block';
+        aiText.innerText = '';
+        spinner.style.display = 'inline-block';
+
+        try {
+            const response = await fetch('/api/ai-suggestion', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRFToken': '{{ csrf_token() }}'
+                },
+                body: JSON.stringify({ thought: text })
+            });
+            const data = await response.json();
+            spinner.style.display = 'none';
+            aiText.innerText = data.suggestion;
+        } catch (error) {
+            spinner.style.display = 'none';
+            aiText.innerText = 'We are here for you. 💜';
+        }
+    }
+</script>
+{% endblock %}

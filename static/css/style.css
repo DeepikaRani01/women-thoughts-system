@@ -1,0 +1,555 @@
+/* 
+  Women Thoughts System - Premium CSS
+  Primary: #7B2D8B (deep purple)
+  Secondary: #E91E8C (pink)
+  Background: #FFF5F9 (light blush)
+  Text: #2D2D2D
+  Accent: #F8BBD9 (soft pink)
+*/
+
+:root {
+    --primary: #7B2D8B;
+    --primary-light: #9d4ead;
+    --secondary: #E91E8C;
+    --bg-color: #FFF5F9;
+    --text-color: #2D2D2D;
+    --accent: #F8BBD9;
+    --white: #ffffff;
+    --glass: rgba(255, 255, 255, 0.7);
+    --shadow: 0 8px 32px 0 rgba(123, 45, 139, 0.1);
+    --danger: #ff4757;
+    --success: #2ed573;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Inter', sans-serif;
+    background-color: var(--bg-color);
+    color: var(--text-color);
+    line-height: 1.6;
+    overflow-x: hidden;
+}
+
+h1, h2, h3, h4 {
+    font-family: 'Poppins', sans-serif;
+    font-weight: 600;
+    color: var(--primary);
+}
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
+}
+
+/* Navbar */
+.navbar {
+    background: var(--glass);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border-bottom: 1px solid var(--accent);
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    padding: 15px 0;
+}
+
+.navbar-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.logo {
+    font-size: 1.5rem;
+    font-weight: 600;
+    color: var(--primary);
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.nav-links {
+    list-style: none;
+    display: flex;
+    gap: 25px;
+    align-items: center;
+}
+
+.nav-links a {
+    text-decoration: none;
+    color: var(--text-color);
+    font-weight: 500;
+    transition: color 0.3s;
+}
+
+.nav-links a:hover {
+    color: var(--secondary);
+}
+
+.btn-signup {
+    background: var(--primary);
+    color: var(--white) !important;
+    padding: 8px 20px;
+    border-radius: 25px;
+}
+
+/* Sections */
+.section {
+    padding: 60px 0;
+}
+
+.flex-between {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+/* Hero */
+.hero {
+    background: linear-gradient(135deg, #fce4ec 0%, #f3e5f5 100%);
+    padding: 100px 0;
+    text-align: center;
+    border-bottom-left-radius: 50% 20px;
+    border-bottom-right-radius: 50% 20px;
+}
+
+.hero h1 {
+    font-size: 3rem;
+    margin-bottom: 20px;
+    background: linear-gradient(to right, var(--primary), var(--secondary));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.subtitle {
+    font-size: 1.2rem;
+    color: #666;
+    margin-bottom: 40px;
+}
+
+/* Cards */
+.glass-card {
+    background: var(--glass);
+    backdrop-filter: blur(15px);
+    -webkit-backdrop-filter: blur(15px);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    border-radius: 20px;
+    padding: 40px;
+    box-shadow: var(--shadow);
+    transition: transform 0.3s;
+}
+
+.glass-card:hover {
+    transform: translateY(-5px);
+}
+
+/* Buttons */
+.btn {
+    display: inline-block;
+    padding: 12px 30px;
+    border-radius: 30px;
+    text-decoration: none;
+    font-weight: 600;
+    cursor: pointer;
+    transition: 0.3s ease;
+    border: none;
+    text-align: center;
+}
+
+.btn-primary {
+    background: var(--primary);
+    color: var(--white);
+    box-shadow: 0 4px 15px rgba(123, 45, 139, 0.3);
+}
+
+.btn-primary:hover {
+    background: var(--primary-light);
+    transform: scale(1.05);
+}
+
+.btn-secondary {
+    background: var(--secondary);
+    color: var(--white);
+    box-shadow: 0 4px 15px rgba(233, 30, 140, 0.3);
+}
+
+.btn-danger {
+    background: var(--danger);
+    color: var(--white);
+}
+
+.btn-block {
+    display: block;
+    width: 100%;
+}
+
+/* Forms */
+.auth-container, .create-post-container {
+    max-width: 500px;
+    margin: 40px auto;
+}
+
+.form-group {
+    margin-bottom: 20px;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: 500;
+}
+
+.form-group input, .form-group select, .form-group textarea {
+    width: 100%;
+    padding: 12px 15px;
+    border: 1px solid var(--accent);
+    border-radius: 10px;
+    background: rgba(255, 255, 255, 0.8);
+    font-family: inherit;
+}
+
+.form-group input:focus {
+    outline: none;
+    border-color: var(--primary);
+}
+
+/* Post Cards */
+.posts-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+    gap: 30px;
+}
+
+.post-card {
+    padding: 25px;
+}
+
+.post-header {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 15px;
+}
+
+.post-user {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.avatar {
+    width: 40px;
+    height: 40px;
+    background: var(--accent);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 600;
+    color: var(--primary);
+}
+
+.username {
+    font-weight: 600;
+    display: block;
+}
+
+.post-date {
+    font-size: 0.8rem;
+    color: #888;
+}
+
+.verified-badge {
+    color: var(--success);
+    margin-left: 5px;
+}
+
+.post-emotion-badge {
+    padding: 5px 12px;
+    border-radius: 20px;
+    font-size: 0.9rem;
+    font-weight: 500;
+}
+
+.badge-happy { background: #fff9c4; color: #fbc02d; }
+.badge-sad { background: #e3f2fd; color: #1976d2; }
+.badge-angry { background: #ffebee; color: #d32f2f; }
+.badge-anxious { background: #f3e5f5; color: #7b1fa2; }
+.badge-hopeful { background: #e8f5e9; color: #388e3c; }
+
+.post-body {
+    margin-bottom: 20px;
+}
+
+.post-body p {
+    font-size: 1.1rem;
+    margin-bottom: 15px;
+}
+
+.category-tag {
+    background: #f1f1f1;
+    padding: 4px 10px;
+    border-radius: 5px;
+    font-size: 0.85rem;
+    color: #666;
+}
+
+.post-footer {
+    border-top: 1px solid #eee;
+    padding-top: 15px;
+    display: flex;
+    gap: 20px;
+}
+
+.btn-icon {
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: #666;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    transition: 0.3s;
+}
+
+.btn-icon:hover {
+    color: var(--secondary);
+}
+
+/* SOS Button */
+.sos-button {
+    position: fixed;
+    bottom: 30px;
+    right: 30px;
+    width: 70px;
+    height: 70px;
+    background: var(--danger);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-weight: bold;
+    font-size: 1.2rem;
+    cursor: pointer;
+    box-shadow: 0 10px 20px rgba(255, 71, 87, 0.4);
+    z-index: 999;
+    animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+    0% { transform: scale(1); box-shadow: 0 0 0 0 rgba(255, 71, 87, 0.7); }
+    70% { transform: scale(1.1); box-shadow: 0 0 0 15px rgba(255, 71, 87, 0); }
+    100% { transform: scale(1); box-shadow: 0 0 0 0 rgba(255, 71, 87, 0); }
+}
+
+/* Modals */
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 2000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0,0,0,0.5);
+    backdrop-filter: blur(5px);
+}
+
+.modal-content {
+    background-color: var(--white);
+    margin: 10% auto;
+    padding: 30px;
+    border-radius: 20px;
+    width: 90%;
+    max-width: 500px;
+    position: relative;
+    box-shadow: 0 20px 40px rgba(0,0,0,0.2);
+}
+
+.close {
+    position: absolute;
+    right: 20px;
+    top: 10px;
+    font-size: 28px;
+    cursor: pointer;
+}
+
+/* Breathing Animation */
+.breathing-circle {
+    width: 100px;
+    height: 100px;
+    background: var(--primary);
+    border-radius: 50%;
+    margin: 30px auto;
+    opacity: 0.6;
+    animation: breathe 8s infinite ease-in-out;
+}
+
+@keyframes breathe {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(2); }
+}
+
+/* Flash Messages */
+.alert {
+    padding: 15px;
+    border-radius: 10px;
+    margin-bottom: 20px;
+}
+
+.alert-danger { background: #ffebee; color: #d32f2f; border: 1px solid #ffcdd2; }
+.alert-success { background: #e8f5e9; color: #2e7d32; border: 1px solid #c8e6c9; }
+
+/* Camera */
+.camera-area {
+    margin-top: 15px;
+    text-align: center;
+}
+
+.camera-preview-container {
+    width: 200px;
+    height: 200px;
+    border-radius: 50%;
+    overflow: hidden;
+    margin: 0 auto 15px;
+    border: 3px solid var(--accent);
+    position: relative;
+    background: #eee;
+}
+
+#video {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.camera-overlay {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 2rem;
+    color: #ccc;
+}
+
+/* AI Suggestion */
+.ai-suggestion {
+    margin-top: 15px;
+    background: #f3e5f5;
+    border-left: 4px solid var(--primary);
+    padding: 15px;
+    border-radius: 0 10px 10px 0;
+}
+
+.ai-header {
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: var(--primary);
+    margin-bottom: 5px;
+}
+
+.spinner {
+    width: 20px;
+    height: 20px;
+    border: 2px solid rgba(123, 45, 139, 0.3);
+    border-top: 2px solid var(--primary);
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+/* Comments Section */
+.comments-section {
+    margin-top: 15px;
+    animation: fadeIn 0.3s ease;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(-10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.comments-list {
+    max-height: 200px;
+    overflow-y: auto;
+    margin-bottom: 15px;
+}
+
+.comment-item {
+    background: rgba(123, 45, 139, 0.05);
+    padding: 10px;
+    border-radius: 8px;
+    margin-bottom: 8px;
+}
+
+.comment-item strong {
+    font-size: 0.85rem;
+    color: var(--primary);
+}
+
+.comment-item p {
+    font-size: 0.95rem;
+    margin: 4px 0;
+}
+
+.comment-item small {
+    font-size: 0.75rem;
+    color: #999;
+}
+
+.comment-form {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.comment-form input {
+    flex: 1;
+    padding: 8px 12px;
+    border: 1px solid var(--accent);
+    border-radius: 20px;
+}
+
+.comment-form-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+/* Footer */
+.footer {
+    padding: 40px 0;
+    background: #fdf2f7;
+    margin-top: 60px;
+    text-align: center;
+    border-top: 1px solid var(--accent);
+}
+
+.footer-links {
+    margin-top: 15px;
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+}
+
+.footer-links a {
+    text-decoration: none;
+    color: #888;
+}
+
+/* Mobile Responsive */
+@media (max-width: 768px) {
+    .nav-links { display: none; }
+    .hero h1 { font-size: 2rem; }
+}

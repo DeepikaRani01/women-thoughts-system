@@ -1,0 +1,147 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="admin-container container">
+    <div class="admin-header section">
+        <h1>Admin Control Panel</h1>
+        <p>Manage the community and ensure safety for everyone.</p>
+    </div>
+
+    <div class="stats-grid stats-section section">
+        <div class="stat-card"><h3>{{ stats.total_users }}</h3><p>Users</p></div>
+        <div class="stat-card"><h3>{{ stats.total_posts }}</h3><p>Posts</p></div>
+        <div class="stat-card danger"><h3>{{ stats.reports_count }}</h3><p>Reports</p></div>
+        <div class="stat-card alert"><h3>{{ stats.sos_count }}</h3><p>Active SOS</p></div>
+    </div>
+
+    <div class="admin-tabs section">
+        <div class="tabs-nav">
+            <button class="tab-btn active" onclick="openTab(event, 'reported')">🚩 Reports</button>
+            <button class="tab-btn" onclick="openTab(event, 'sos')">🆘 SOS Requests</button>
+            <button class="tab-btn" onclick="openTab(event, 'posts')">📋 All Posts</button>
+            <button class="tab-btn" onclick="openTab(event, 'users')">👥 Users</button>
+        </div>
+
+        <div id="reported" class="tab-content active">
+            <h3>Reported Content</h3>
+            <table class="admin-table">
+                <thead>
+                    <tr>
+                        <th>Post ID</th>
+                        <th>Reporter</th>
+                        <th>Reason</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for report in reports %}
+                    <tr>
+                        <td>{{ report.post_id }}</td>
+                        <td>{{ report.reporter.username }}</td>
+                        <td>{{ report.reason }}</td>
+                        <td>
+                            <form action="{{ url_for('admin.delete_post', post_id=report.post_id) }}" method="POST">
+                                <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+                                <button class="btn btn-danger btn-sm">Delete Post</button>
+                            </form>
+                        </td>
+                    </tr>
+                    {% else %}
+                    <tr><td colspan="4">No reports to review. Good job!</td></tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+
+        <div id="sos" class="tab-content">
+            <h3>Emergency SOS Requests</h3>
+            <div class="sos-list">
+                {% for sos in sos_requests %}
+                <div class="sos-item danger-border">
+                    <div class="sos-meta">
+                        <strong>{{ sos.user.username }}</strong> 
+                        <span>{{ sos.created_at.strftime('%H:%M - %b %d') }}</span>
+                    </div>
+                    <p>{{ sos.message or "No message provided." }}</p>
+                    <form action="{{ url_for('admin.resolve_sos', sos_id=sos.id) }}" method="POST">
+                        <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+                        <button class="btn btn-success btn-sm">Mark Resolved</button>
+                    </form>
+                </div>
+                {% else %}
+                <p>No active SOS requests.</p>
+                {% endfor %}
+            </div>
+        </div>
+
+        <!-- Other tabs simplified for space -->
+        <div id="posts" class="tab-content">
+            <h3>Recent Posts</h3>
+            <table class="admin-table">
+                <thead><tr><th>User</th><th>Thought</th><th>Action</th></tr></thead>
+                <tbody>
+                    {% for post in posts[:10] %}
+                    <tr>
+                        <td>{{ post.author.username }}</td>
+                        <td>{{ post.thought[:50] }}...</td>
+                        <td>
+                             <form action="{{ url_for('admin.delete_post', post_id=post.id) }}" method="POST">
+                                <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+                                <button class="btn btn-text danger">Remove</button>
+                            </form>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+
+        <div id="users" class="tab-content">
+            <h3>User Management</h3>
+            <table class="admin-table">
+                <thead><tr><th>Username</th><th>Email</th><th>Verified</th><th>Action</th></tr></thead>
+                <tbody>
+                    {% for user in users %}
+                    <tr>
+                        <td>{{ user.username }}</td>
+                        <td>{{ user.email }}</td>
+                        <td>{{ 'Yes' if user.gender_verified else 'No' }}</td>
+                        <td>
+                            {% if user.is_banned %}
+                            <form action="{{ url_for('admin.unban_user', user_id=user.id) }}" method="POST" style="display:inline;">
+                                <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+                                <button class="btn btn-success btn-sm">Unban</button>
+                            </form>
+                            {% else %}
+                            <form action="{{ url_for('admin.ban_user', user_id=user.id) }}" method="POST" style="display:inline;">
+                                <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+                                <button class="btn btn-danger btn-sm">Ban</button>
+                            </form>
+                            {% endif %}
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<script>
+    function openTab(evt, tabName) {
+        var i, tabcontent, tablinks;
+        tabcontent = document.getElementsByClassName("tab-content");
+        for (i = 0; i < tabcontent.length; i++) {
+            tabcontent[i].style.display = "none";
+            tabcontent[i].classList.remove("active");
+        }
+        tablinks = document.getElementsByClassName("tab-btn");
+        for (i = 0; i < tablinks.length; i++) {
+            tablinks[i].className = tablinks[i].className.replace(" active", "");
+        }
+        document.getElementById(tabName).style.display = "block";
+        document.getElementById(tabName).classList.add("active");
+        evt.currentTarget.className += " active";
+    }
+</script>
+{% endblock %}

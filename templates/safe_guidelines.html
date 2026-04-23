@@ -1,0 +1,32 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="guidelines-container container section">
+    <div class="glass-card narrow-card">
+        <h1>Safe Space Guidelines 💜</h1>
+        <p>This community is built on trust, empathy, and mutual respect. To keep it safe for all women, please follow these rules:</p>
+        
+        <div class="rules-section">
+            <h3>1. Be Kind and Supportive</h3>
+            <p>We are all here for support. Avoid judgmental language, unsolicited advice unless asked, and any form of negativity.</p>
+            
+            <h3>2. Anonymity is a Right</h3>
+            <p>Respect the privacy of those who choose to post anonymously. Never attempt to "dox" or identify someone who wishes to remain private.</p>
+            
+            <h3>3. No Harassment or Hate Speech</h3>
+            <p>Any form of bullying, harassment, or hate speech based on identity will result in an immediate and permanent ban.</p>
+            
+            <h3>4. Verify for Credibility</h3>
+            <p>While optional, gender verification helps build trust. We encourage all members to verify their gender via the camera tool during signup.</p>
+            
+            <h3>5. Reporting Violations</h3>
+            <p>If you see a post that violates these rules, use the flag icon 🚩 to alert the admin team. We review every report.</p>
+        </div>
+
+        <div class="cta-box">
+            <p>Ready to join the conversation?</p>
+            <a href="{{ url_for('auth.signup') }}" class="btn btn-primary">Create Your Account</a>
+        </div>
+    </div>
+</div>
+{% endblock %}
